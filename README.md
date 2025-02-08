@@ -8,9 +8,9 @@ Press F1 to run depth first search from start (green) to goal (orange)
 
 
 TODO:
-Breadth First Search
-Djikstra's
-A*
+Breadth First Search,
+Djikstra's,
+A*,
 Setable start/goal
 
 Might Do:
