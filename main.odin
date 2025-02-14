@@ -39,6 +39,7 @@ Tile :: struct {
 TileMap :: struct {
     grid: [WORLDX][WORLDY]Tile,
 }
+
 // Initializes the tilemap to a default empty/passible state
 setTileMap :: proc(tilemap: ^TileMap) {
     for x := 0; x < WORLDX; x += 1 {
@@ -55,7 +56,7 @@ setTileMap :: proc(tilemap: ^TileMap) {
 
 main :: proc() {
     rl.InitWindow(1920, 1080, "Search Demonstration")
-    //rl.SetWindowState({.WINDOW_RESIZABLE})
+    // rl.SetWindowState({.WINDOW_RESIZABLE})
     rl.SetTargetFPS(500)
     
     // Initialize tiles in tilemap
@@ -92,6 +93,30 @@ main :: proc() {
                         } else {
                             tilemap.grid[x][y].color = rl.RED
                         }
+                    }
+                }
+            }
+        }
+
+        if rl.IsKeyPressed(.S) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        start.color = rl.BLACK
+                        start = &tilemap.grid[x][y]
+                        start.color = rl.GREEN
+                    }
+                }
+            }
+        }
+
+        if rl.IsKeyPressed(.G) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        goal.color = rl.BLACK
+                        goal = &tilemap.grid[x][y]
+                        goal.color = rl.ORANGE
                     }
                 }
             }
