@@ -11,7 +11,12 @@ TODO:
 Breadth First Search,
 Djikstra's,
 A*,
-Setable start/goal
+
 
 Might Do:
 Animate search process
+
+Done:
+Depth First Search
+Setable start/goal
+Marking unvisited nodes in frontier(yellow), and visited (blue)
