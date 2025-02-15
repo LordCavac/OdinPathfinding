@@ -4,21 +4,6 @@ import rl "vendor:raylib"
 import q "core:container/queue"
 import "core:fmt"
 
-isValid :: proc(visited: [$N][$M]bool, tilemap: ^TileMap, loc: rl.Vector2) -> bool {
-    // fmt.eprintf("Checking if %v, %v is valid\n", loc.x, loc.y)
-    if int(loc.x) == WORLDX || int(loc.y) == WORLDY || int(loc.x) < 0 || int(loc.y) < 0 {
-        return false
-    }
-    if visited[int(loc.x)][int(loc.y)] {
-        return false
-    }
-    if !tilemap.grid[int(loc.x)][int(loc.y)].passable {
-        return false
-    }
-    return true
-}
-
-
 dfs :: proc(tilemap: ^TileMap, start: ^Tile, goal: ^Tile) -> bool {
     fmt.eprintf("Starting Depth Search\n")
     gridLoc := rl.Vector2 {start.position.x / TILESIZE, start.position.y / TILESIZE}

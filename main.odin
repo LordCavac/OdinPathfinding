@@ -34,10 +34,34 @@ Tile :: struct {
     passable: bool,
     color: rl.Color,
     position: rl.Rectangle,
+    previous: ^Tile, // When searching, used to keep track of the node that was come from
 }
 
 TileMap :: struct {
     grid: [WORLDX][WORLDY]Tile,
+}
+
+// Used by algorithms to determine if a tile is valid for movement.
+isValid :: proc(visited: [$N][$M]bool, tilemap: ^TileMap, loc: rl.Vector2) -> bool {
+    // fmt.eprintf("Checking if %v, %v is valid\n", loc.x, loc.y)
+    if int(loc.x) == WORLDX || int(loc.y) == WORLDY || int(loc.x) < 0 || int(loc.y) < 0 {
+        return false
+    }
+    if visited[int(loc.x)][int(loc.y)] {
+        return false
+    }
+    if !tilemap.grid[int(loc.x)][int(loc.y)].passable {
+        return false
+    }
+    return true
+}
+
+markPath :: proc(start: ^Tile, goal: ^Tile) {
+    current := goal.previous
+    for current != start {
+        current.color = rl.PURPLE
+        current = current.previous
+    }
 }
 
 // Initializes the tilemap to a default empty/passible state
@@ -48,6 +72,7 @@ setTileMap :: proc(tilemap: ^TileMap) {
                 passable = true,
                 color = rl.BLACK,
                 position = {f32(x * TILESIZE), f32(y * TILESIZE), TILESIZE, TILESIZE},
+                previous = nil,
             }
             tilemap.grid[x][y] = tile
         }
@@ -130,6 +155,12 @@ main :: proc() {
 
         if rl.IsKeyPressed(.F1) {
             dfs(&tilemap, start, goal)
+            start.color = rl.GREEN
+            goal.color = rl.ORANGE
+        }
+
+        if rl.IsKeyPressed(.F2) {
+            bfs(&tilemap, start, goal)
             start.color = rl.GREEN
             goal.color = rl.ORANGE
         }
