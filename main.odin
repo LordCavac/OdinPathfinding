@@ -230,6 +230,12 @@ main :: proc() {
             goal.color = rl.ORANGE
         }
 
+        if rl.IsKeyPressed(.F4) {
+            aStar(&tilemap, start, goal)
+            start.color = rl.GREEN
+            goal.color = rl.ORANGE
+        }
+
         rl.EndMode2D()
         rl.EndDrawing()
     }
