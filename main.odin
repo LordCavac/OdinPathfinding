@@ -1,36 +1,16 @@
 package main
 
 import rl "vendor:raylib"
-import "core:fmt"
 import "core:container/queue"
 import "core:strings"
 import "core:strconv"
+
 
 SCREENX :: 1920
 SCREENY :: 1080
 TILESIZE :: 64
 WORLDX :: int(SCREENX/TILESIZE)
 WORLDY :: int(SCREENY/TILESIZE) + 1
-
-// Until I started digging through the built-in queue I didn't realize that Odin used queue as both a stack and queue. Here is a good example for paramorphic types and functions though.
-// Stack :: struct($T: typeid) {
-//     data: []T,
-// }
-// push :: proc(stack: ^$Stack, value: $T) {
-//     stack.data = append(&stack.data, value)
-// }
-// pop :: proc(stack: ^$Stack/Stack($T)) -> T {
-//     if len(stack.data) == 0 {
-//         fmt.eprintf("Stack already empty!\n")
-//         return zero(T)
-//     }
-//     value := stack.data[len(stack.data) - 1]
-//     stack.data = stack.data[:len(stack.data) - 1]
-//     return value
-// }
-// isEmpty :: proc(stack: ^$Stack) -> bool {
-//     return len(stack.data) == 0
-// }
 
 Tile :: struct {
     passable: bool,
@@ -87,7 +67,7 @@ setTileMap :: proc(tilemap: ^TileMap) {
 
 main :: proc() {
     rl.InitWindow(1920, 1080, "Search Demonstration")
-    // rl.SetWindowState({.WINDOW_RESIZABLE})
+    // rl.SetWindowState({.BORDERLESS_WINDOWED_MODE})
     rl.SetTargetFPS(500)
     
     // Initialize tiles in tilemap

@@ -2,10 +2,8 @@ package main
 
 import rl "vendor:raylib"
 import q "core:container/queue"
-import "core:fmt"
 
 dfs :: proc(tilemap: ^TileMap, start: ^Tile, goal: ^Tile) -> bool {
-    fmt.eprintf("Starting Depth Search\n")
     gridLoc := rl.Vector2 {start.position.x / TILESIZE, start.position.y / TILESIZE}
     frontier: q.Queue(rl.Vector2)
     visited: [WORLDX][WORLDY]bool

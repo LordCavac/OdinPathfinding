@@ -1,7 +1,6 @@
 package main
 
 import rl "vendor:raylib"
-import "core:fmt"
 
 findLowestCost :: proc(frontier: ^[dynamic]rl.Vector2, tilemap: ^TileMap) -> rl.Vector2 {
     selIdx: int = 0
@@ -19,7 +18,6 @@ findLowestCost :: proc(frontier: ^[dynamic]rl.Vector2, tilemap: ^TileMap) -> rl.
 }
 
 ucs :: proc(tilemap: ^TileMap, start: ^Tile, goal: ^Tile) -> bool {
-    fmt.eprintf("Starting Uniform Cost Search\n")
     gridLoc := rl.Vector2 {start.position.x / TILESIZE, start.position.y / TILESIZE}
     frontier: [dynamic]rl.Vector2
     visited: [WORLDX][WORLDY]bool
