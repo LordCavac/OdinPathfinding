@@ -3,6 +3,8 @@ package main
 import rl "vendor:raylib"
 import "core:fmt"
 import "core:container/queue"
+import "core:strings"
+import "core:strconv"
 
 SCREENX :: 1920
 SCREENY :: 1080
@@ -35,6 +37,8 @@ Tile :: struct {
     color: rl.Color,
     position: rl.Rectangle,
     previous: ^Tile, // When searching, used to keep track of the node that was come from
+    cost: int, // cost of leaving this tile
+    totalCost: int, // cost of reaching this tile
 }
 
 TileMap :: struct {
@@ -73,6 +77,8 @@ setTileMap :: proc(tilemap: ^TileMap) {
                 color = rl.BLACK,
                 position = {f32(x * TILESIZE), f32(y * TILESIZE), TILESIZE, TILESIZE},
                 previous = nil,
+                cost = 1,
+                totalCost = 0,
             }
             tilemap.grid[x][y] = tile
         }
@@ -103,6 +109,9 @@ main :: proc() {
         for x := 0; x < WORLDX; x += 1 {
             for y := 0; y < WORLDY; y += 1 {
                 rl.DrawRectangleRec(tilemap.grid[x][y].position, tilemap.grid[x][y].color)
+                buf: [4]byte
+                costText: string = strconv.itoa(buf[:] ,tilemap.grid[x][y].cost)
+                rl.DrawText(strings.clone_to_cstring(costText), i32(tilemap.grid[x][y].position.x + TILESIZE/2.5),i32(tilemap.grid[x][y].position.y + TILESIZE/4), 32, rl.WHITE)
             }
         }
 
@@ -147,6 +156,56 @@ main :: proc() {
             }
         }
 
+        if rl.IsKeyPressed(.ONE) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        tilemap.grid[x][y].cost = 1
+                    }
+                }
+            }
+        }
+
+        if rl.IsKeyPressed(.TWO) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        tilemap.grid[x][y].cost = 2
+                    }
+                }
+            }
+        }
+
+        if rl.IsKeyPressed(.THREE) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        tilemap.grid[x][y].cost = 3
+                    }
+                }
+            }
+        }
+
+        if rl.IsKeyPressed(.FOUR) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        tilemap.grid[x][y].cost = 4
+                    }
+                }
+            }
+        }
+
+        if rl.IsKeyPressed(.FIVE) {
+            for x := 0; x < WORLDX; x += 1 {
+                for y := 0; y < WORLDY; y += 1 {
+                    if rl.CheckCollisionPointRec(mp, tilemap.grid[x][y].position) {
+                        tilemap.grid[x][y].cost = 5
+                    }
+                }
+            }
+        }
+
         if rl.IsKeyPressed(.R) {
             setTileMap(&tilemap)
             start.color = rl.GREEN
@@ -161,6 +220,12 @@ main :: proc() {
 
         if rl.IsKeyPressed(.F2) {
             bfs(&tilemap, start, goal)
+            start.color = rl.GREEN
+            goal.color = rl.ORANGE
+        }
+
+        if rl.IsKeyPressed(.F3) {
+            ucs(&tilemap, start, goal)
             start.color = rl.GREEN
             goal.color = rl.ORANGE
         }
