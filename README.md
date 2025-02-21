@@ -10,13 +10,12 @@ Use 1-5 to set the cost to move through the mouse current position (only conside
 Press F1 to run depth first search from start (green) to goal (orange).
 Press F2 to run Breadth First Search from start (green) to goal (orange).
 Press F3 to run Uniform Cost Search from start (green) to goal (orange).
+Press F4 to run A* from start (green) to goal (orange).
 Best route will be colored purple (BFS will mark based on fewest tiles traversed, not cost).
 DFS does not mark route, the route taken is every node visited.
 
 
 TODO:
-A*,
-
 
 Might Do:
 Animate search process
@@ -29,3 +28,4 @@ Breadth First Search
 Mark shortest path purple
 Weighted node values
 Djikstra's/UCS
+A*
