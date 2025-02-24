@@ -1,16 +1,16 @@
 package main
 
 import rl "vendor:raylib"
-import "core:container/queue"
 import "core:strings"
 import "core:strconv"
+import "core:c"
 
 
 SCREENX :: 1920
 SCREENY :: 1080
 TILESIZE :: 64
 WORLDX :: int(SCREENX/TILESIZE)
-WORLDY :: int(SCREENY/TILESIZE) + 1
+WORLDY :: int(SCREENY/TILESIZE)
 
 Tile :: struct {
     passable: bool,
@@ -94,6 +94,8 @@ main :: proc() {
                 rl.DrawText(strings.clone_to_cstring(costText), i32(tilemap.grid[x][y].position.x + TILESIZE/2.5),i32(tilemap.grid[x][y].position.y + TILESIZE/4), 32, rl.WHITE)
             }
         }
+
+        rl.DrawText("R- Reset, S- Set Start, G- Set Goal, Left Click- Make Impassable, 1..5- Set Movement Cost\nF1- Depth First Seasrch, F2- Breadth First Search, F3- Uniform Cost Search/Djikstra's, F4- AStar", 5, 1020, 25, rl.WHITE)
 
         mp := rl.GetScreenToWorld2D(rl.GetMousePosition(), camera)
 
